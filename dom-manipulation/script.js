@@ -12,7 +12,7 @@ let quotes = [
 function showRandomQuote() {
     const randomIndex = Math.floor(Math.random() *quotes.length);
     const randomQuote = quotes[randomIndex];
-    
+quoteDisplay.innerHTML = `"${randomQuote.text}" - ${randomQuote.author}`;    
 
 //creating quote and author elements
     const quoteElement = document.createElement('p');
