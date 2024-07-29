@@ -12,7 +12,19 @@ let quotes = [
 function showRandomQuote() {
     const randomIndex = Math.floor(Math.random() *quotes.length);
     const randomQuote = quotes[randomIndex];
-    quoteDisplay.innerHTML = `"${randomQuote.text} - ${randomQuote.author}"`;
+    
+
+//creating quote and author elements
+    const quoteElement = document.createElement('p');
+    const authorElement = document.createEllement('p');
+
+    //setting content
+    quoteElement.textContent = `"${randomQuote.text}"`;
+    authorElement.textContent = `"${randomQuote,author}"`;
+
+    //Appending
+    quoteDisplay.appendChild(quoteElement);
+    quoteDisplay.appendChild(authorElement);
 }
 
 function createAddQuoteForm() {
