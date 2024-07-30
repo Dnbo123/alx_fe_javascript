@@ -158,6 +158,7 @@ function sendQuoteToServer(quote) {
     })
     .then(data => {
         console.log('Quote sent successfully:', data);
+syncStatus.textContent = 'Quotes synced with server!';
     })
     .catch(error => {
         console.error('Error sending quote:', error);
