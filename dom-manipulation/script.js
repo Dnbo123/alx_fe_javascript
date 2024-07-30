@@ -12,7 +12,7 @@ const syncStatus = document.getElementById('syncStatus');
 let quote =  [];
 let categories = [];
 
-const serverUrl = 'JSONplaceholder';
+const serverUrl = "https://jsonplaceholder.typicode.com/posts";
 
 
 
