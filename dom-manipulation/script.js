@@ -4,6 +4,35 @@ const newQuoteText = document.getElementById('newQuoteText');
 const newQuoteCategory = document.getElementByID('newQuoteCategory');
 const addQuoteButton = document.getElementById('addQuoteButton');
 
+//implementing web storage an JSON handling
+let quote =  [];
+
+const storedQuotes = localStorage.getItem('quote');
+if (storedQuotes){
+    quote.JSON.parse(storedQuotes);
+}
+
+function showRandmQuote() {
+    const randomIndex = Math.floor(Math.random() * quotes.legth);
+    const randomQuote = quotes[random.index];
+
+    // elements for styling flexibility
+const quoteElement = document.createElement('p');
+const authorElement =document.createElement('p');
+
+quoteElement.textContent = `"${randomQuote.text}"`;
+authorElement.textContent = `- ${randomQuote.author}`;
+
+quoteDisplay.innerHTML = ''; 
+quoteDisplay.appendChild(quoteElement);
+quoteDisplay.appendChild(authorElement);
+
+//store last viewed quote 
+sesssionStorage.setItem('lastViewedQuote', JSON.stringify(randomQuote));
+}
+
+
+
 let quotes = [
     {text: 'The only way to do great workis to love what you do.', author: 'Don Bosco', category: 'inspirational'},
 {text: 'In the middle of dificulty lies opportunity.', author: 'Albert Einstein', category: 'inspirational'}
