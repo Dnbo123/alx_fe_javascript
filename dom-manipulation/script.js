@@ -8,20 +8,20 @@ const importFile = document.getElementById('importFile');
 const categoryFilter = document.getElementById('categoryFilter');
 const syncStatus = document.getElementById('syncStatus');
 
-
 //implementing web storage an JSON handling
 let quote =  [];
 let categories = [];
 
-const serverUrl = "https://jsonplaceholder.typicode.com/posts";
+const serverUrl = 'JSONplaceholder';
+
 
 
 const storedQuotes = localStorage.getItem('quote');
 if (storedQuotes){
     quote.JSON.parse(storedQuotes);
-populateCategories();
+    populatedCategories();
 }
-
+//fetching quotes from server
 async function fetchQuotesFromServer() {
     try {
         const response = await fetch(serverUrl1 + '/quotes');
@@ -30,7 +30,7 @@ async function fetchQuotesFromServer() {
         console.error('Error fetching quotes:', error);
     }
 } 
-
+//syncing quotes with server
 function syncQuotes() {
 
 }
@@ -38,19 +38,18 @@ function syncQuotes() {
 async function loadQuotes() {
     const storedQuotes = localStorage.getItem('quote');
     if(storedQuotes) {
-        quotes = JSON.parse(storedQuotes);
+        quote = JSON.parse(storedQuotes);
     }else {
         try {
-            const response =await fetch(serverUrl1 + '/quotes');
-            quotes 0 await response.json();
-            localStorage.setItem('quotes', JSON.stringify(quotes));
+            const response = await fetch(serverUrl1 + '/quote');
+            quote = await response.json();
+            localStorage.setItem('quote', JSON.stringify(quote));
         } catch (error) {
             console.error('Error fetching quotes', error);
         }
     }
     popuöateCategories();
 }
-
 
 function showRandmQuote() {
     const randomIndex = Math.floor(Math.random() * quotes.legth);
@@ -76,22 +75,6 @@ let quotes = [
 {text: 'In the middle of dificulty lies opportunity.', author: 'Albert Einstein', category: 'inspirational'}
 ];
 
-function showRandomQuote() {
-    const randomIndex = Math.floor(Math.random() *quotes.length);
-    const randomQuote = quotes[randomIndex];
-
-    //creating quote and author elements
-    const quoteElement = document.createElement('p');
-    const authorElement = document.createEllement('p');
-
-    //setting content
-    quoteElement.textContent = `"${randomQuote.text}"`;
-    authorElement.textContent = `"${randomQuote,author}"`;
-
-    //Appending
-    quoteDisplay.appendChild(quoteElement);
-    quoteDisplay.appendChild(authorElement);
-}
 
 function createAddQuoteForm() {
     //adding quote form(implementation)
@@ -100,25 +83,30 @@ function createAddQuoteForm() {
 function addQuote() {
     const newQuote = newQuoteText.value.trim();
     const newCategory = newQuoteCategory.value.trim();
-saveQuotes();
+    saveQuotes();
 
     if (newQuote && newCategory) {
-        quotes.push({text: newQuote, category: newCategory});
+        const newQuoteObject = {text: newQuote, category: newCategory};
+        quotes.push(newQuoteObject);
+        saveQuotes();
+        sendQuotesToServer(newQuoteObject);
+        newQuoteText.value = '';
+        newQuoteCategory.value = '';
         //update DOM to display the new quote
     } else {
         alert('Please eneter both quote and category');
     }
+   
 
     newQuoteText.value = '';
     newQuoteCategory.value = '';
-populatedCategories();
 }
 
 function saveQuotes() {
 localStorage.setItem('quote', JSON.stringify(quote));
 }
 function exportQuoteToJson() {
-     const quotesJson = JSON.stringify(quotes);
+    const quotesJson = JSON.stringify(quotes);
     const blob = new Blob([quotesJson], {type: 'application/json'});
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
@@ -126,7 +114,7 @@ function exportQuoteToJson() {
     link.click();
 }
 function importFromJsonFile(event) {
-    const fileReader = new FileReader();
+const fileReader = new FileReader();
 fileReader.onload = functin(event) {
     try {
         const importQuotes = JSON.parse(event.target.result);
@@ -138,6 +126,7 @@ fileReader.onload = functin(event) {
     };
     fileReader.readAsText(event.target.files[0]);
 }
+
 function filterQuotes() {
     const selectedCategory = categoryFilter.value;
     const filteredQuotes = selectedCategory === 'all' ? quotes : quotes.filter(quote => quote.category === selectedCategory);
@@ -153,11 +142,32 @@ function populatedCategories() {
     });
 }
 }
-loadqQuotes();
+function sendQuoteToServer(quote) {
+    fetch(serverUrl + '/quote', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application.json'
+        },
+        body: JSON.stringify(quote)
+    })
+    .then(response => {
+        if(!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Quote sent successfully:', data);
+    })
+    .catch(error => {
+        console.error('Error sending quote:', error);
+    });
+}
+
 setInterval(fetchQuotesFromServer, 5000);
 
 newQuoteButton.addEventListener('click', showRandomQuote);
-addQuoteButton.addEventListener('click', addQuoote);
+addQuoteButton.addEventListener('click', addQuote);
 exportQuotesButton.addEventListener('click', exportQuoteToJson);
 importFile.addEventListener('change', importFromJsonFile);
 categoryFilter.addEventListener('change', filterQuotes);
