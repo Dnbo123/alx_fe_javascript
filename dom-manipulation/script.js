@@ -35,6 +35,23 @@ function syncQuotes() {
 
 }
 
+async function loadQuotes() {
+    const storedQuotes = localStorage.getItem('quote');
+    if(storedQuotes) {
+        quotes = JSON.parse(storedQuotes);
+    }else {
+        try {
+            const response =await fetch(serverUrl1 + '/quotes');
+            quotes 0 await response.json();
+            localStorage.setItem('quotes', JSON.stringify(quotes));
+        } catch (error) {
+            console.error('Error fetching quotes', error);
+        }
+    }
+    popuöateCategories();
+}
+
+
 function showRandmQuote() {
     const randomIndex = Math.floor(Math.random() * quotes.legth);
     const randomQuote = quotes[random.index];
@@ -83,6 +100,7 @@ function createAddQuoteForm() {
 function addQuote() {
     const newQuote = newQuoteText.value.trim();
     const newCategory = newQuoteCategory.value.trim();
+saveQuotes();
 
     if (newQuote && newCategory) {
         quotes.push({text: newQuote, category: newCategory});
