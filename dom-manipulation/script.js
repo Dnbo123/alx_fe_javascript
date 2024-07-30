@@ -75,6 +75,7 @@ function addQuote() {
 
     newQuoteText.value = '';
     newQuoteCategory.value = '';
+populatedCategories();
 }
 
 function saveQuotes() {
