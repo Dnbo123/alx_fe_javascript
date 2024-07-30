@@ -31,8 +31,6 @@ quoteDisplay.appendChild(authorElement);
 sesssionStorage.setItem('lastViewedQuote', JSON.stringify(randomQuote));
 }
 
-
-
 let quotes = [
     {text: 'The only way to do great workis to love what you do.', author: 'Don Bosco', category: 'inspirational'},
 {text: 'In the middle of dificulty lies opportunity.', author: 'Albert Einstein', category: 'inspirational'}
@@ -41,9 +39,8 @@ let quotes = [
 function showRandomQuote() {
     const randomIndex = Math.floor(Math.random() *quotes.length);
     const randomQuote = quotes[randomIndex];
-quoteDisplay.innerHTML = `"${randomQuote.text}" - ${randomQuote.author}`;    
 
-//creating quote and author elements
+    //creating quote and author elements
     const quoteElement = document.createElement('p');
     const authorElement = document.createEllement('p');
 
@@ -61,7 +58,7 @@ function createAddQuoteForm() {
 }
 
 function addQuote() {
-    const newQuote = newQuoteText.ariaValueMax.trim();
+    const newQuote = newQuoteText.value.trim();
     const newCategory = newQuoteCategory.value.trim();
 
     if (newQuote && newCategory) {
@@ -75,4 +72,15 @@ function addQuote() {
     newQuoteCategory.value = '';
 }
 
+function saveQuotes() {
+localStorage.setItem('quote', JSON.stringify(quote));
+}
+function exportQuoteToJson() {
+    //export logic
+}
+function importFromJsonFile(event) {
+    
+}
+
 newQuoteButton.addEventListener('click', showRandomQuote);
+addQuoteButton.addEventListener('click', addQuoote);
