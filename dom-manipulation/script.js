@@ -153,7 +153,7 @@ function populatedCategories() {
     });
 }
 }
-
+loadqQuotes();
 setInterval(fetchQuotesFromServer, 5000);
 
 newQuoteButton.addEventListener('click', showRandomQuote);
