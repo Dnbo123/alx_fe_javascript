@@ -6,15 +6,33 @@ const addQuoteButton = document.getElementById('addQuoteButton');
 const exportQuotesButton = document.getElementById('exportQuotes');
 const importFile = document.getElementById('importFile');
 const categoryFilter = document.getElementById('categoryFilter');
+const syncStatus = document.getElementById('syncStatus');
+
 
 //implementing web storage an JSON handling
 let quote =  [];
 let categories = [];
 
+const serverUrl = 'JSONplaceholder';
+
+
 const storedQuotes = localStorage.getItem('quote');
 if (storedQuotes){
     quote.JSON.parse(storedQuotes);
 populateCategories();
+}
+
+async function fetchQuotesFromServer() {
+    try {
+        const response = await fetch(serverUrl1 + '/quotes');
+        const serverQuotes = await response.json();
+    }catch (error) {
+        console.error('Error fetching quotes:', error);
+    }
+} 
+
+function syncQuotes() {
+
 }
 
 function showRandmQuote() {
@@ -118,6 +136,7 @@ function populatedCategories() {
 }
 }
 
+setInterval(fetchQuotesFromServer, 5000);
 
 newQuoteButton.addEventListener('click', showRandomQuote);
 addQuoteButton.addEventListener('click', addQuoote);
