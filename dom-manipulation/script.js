@@ -3,6 +3,9 @@ const newQuoteButton =document.getEleentById('newQuote');
 const newQuoteText = document.getElementById('newQuoteText');
 const newQuoteCategory = document.getElementByID('newQuoteCategory');
 const addQuoteButton = document.getElementById('addQuoteButton');
+const exportQuotesButton = document.getElementById('exportQuotes');
+const importFile = document.getElementById('importFile');
+
 
 //implementing web storage an JSON handling
 let quote =  [];
@@ -76,11 +79,29 @@ function saveQuotes() {
 localStorage.setItem('quote', JSON.stringify(quote));
 }
 function exportQuoteToJson() {
-    //export logic
+     const quotesJson = JSON.stringify(quotes);
+    const blob = new Blob([quotesJson], {type: 'application/json'});
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'quotes.json';
+    link.click();
 }
 function importFromJsonFile(event) {
-    
-}
+    const fileReader = new FileReader();
+fileReader.onload = functin(event) {
+    try {
+        const importQuotes = JSON.parse(event.target.result);
+        quotes.push(...importedQuotes);
+        saveQuotes();
+        alert('quotes imported successfully!');
+    }catch (error) {
+        alert('Error importing quotes: '+ error.messsage);
+    };
+    fileReader.readAsText(event.target.files[0]);
+};
+};
 
 newQuoteButton.addEventListener('click', showRandomQuote);
 addQuoteButton.addEventListener('click', addQuoote);
+exportQuotesButton.addEventListener('click', exportQuoteToJson);
+importFile.addEventListener('change', importFromJsonFile);
