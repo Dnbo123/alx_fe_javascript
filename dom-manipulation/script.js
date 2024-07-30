@@ -14,7 +14,7 @@ let categories = [];
 const storedQuotes = localStorage.getItem('quote');
 if (storedQuotes){
     quote.JSON.parse(storedQuotes);
-populatedCategories();
+populateCategories();
 }
 
 function showRandmQuote() {
